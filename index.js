@@ -234,17 +234,15 @@ DynamoDBStream.prototype._emitRecordEvents = function (events) {
 	
 		switch (event.eventName) {
 			case 'INSERT':
-				this.emit('insert record', DynamoDBValue.toJavascript(event.dynamodb.NewImage))
+				this.emit('insert record', event)
 				break
 
 			case 'MODIFY':
-				var newRecord = DynamoDBValue.toJavascript(event.dynamodb.NewImage)
-				var oldRecord = DynamoDBValue.toJavascript(event.dynamodb.OldImage)
-				this.emit('modify record', newRecord, oldRecord)
+				this.emit('modify record', event)
 				break
 
 			case 'REMOVE':
-				this.emit('remove record', DynamoDBValue.toJavascript(event.dynamodb.OldImage))
+				this.emit('remove record', event)
 				break
 
 			default:
